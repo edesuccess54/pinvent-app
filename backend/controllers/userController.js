@@ -86,7 +86,6 @@ const loginUser = asyncHandler(async (req, res) => {
 
   // User exists, check if password is correct
   const passwordIsCorrect = await bcrypt.compare(password, user.password);
-  console.log('passowrd is correct = '+passwordIsCorrect);
 
   //   Generate Token
   const token = generateToken(user._id);
@@ -100,7 +99,7 @@ const loginUser = asyncHandler(async (req, res) => {
     secure: true,
   });
 
-  if (user && password) {
+  if (user && passwordIsCorrect) {
     const { _id, name, email, photo, phone, bio } = user;
     res.status(200).json({
       _id,
@@ -117,6 +116,7 @@ const loginUser = asyncHandler(async (req, res) => {
   }
 });
 
+
 // logout user 
 const logout = asyncHandler( async (req, res) => {
     // Send HTTP-only cookie
@@ -129,6 +129,7 @@ const logout = asyncHandler( async (req, res) => {
   });
   return res.status(200).json({message: "Successfully Logged out"})
 })
+
 
 // get user data 
 const getUser = asyncHandler( async (req, res) => {
