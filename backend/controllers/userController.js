@@ -8,7 +8,8 @@ const generateToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: "1d" });
 };
 
-// Register User
+
+// Register User function
 const registerUser = asyncHandler(async (req, res) => {
   const { name, email, password } = req.body;
 
@@ -66,7 +67,7 @@ const registerUser = asyncHandler(async (req, res) => {
   }
 });
 
-// Login User
+// Login User function
 const loginUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
 
@@ -117,7 +118,7 @@ const loginUser = asyncHandler(async (req, res) => {
 });
 
 
-// logout user 
+// logout user function
 const logout = asyncHandler( async (req, res) => {
     // Send HTTP-only cookie
   res.cookie("token", "", {
@@ -129,7 +130,6 @@ const logout = asyncHandler( async (req, res) => {
   });
   return res.status(200).json({message: "Successfully Logged out"})
 })
-
 
 // get user data 
 const getUser = asyncHandler( async (req, res) => {
@@ -151,9 +151,15 @@ const getUser = asyncHandler( async (req, res) => {
       }
 })
 
+// get login status 
+const loginStatus = asyncHandler(async (req, res) => {
+  res.send("logged in status")
+})
+
 module.exports = {
     registerUser,
     loginUser,
     logout,
-    getUser
+    getUser,
+    loginStatus
 }
