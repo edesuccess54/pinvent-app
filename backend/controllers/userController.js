@@ -197,6 +197,34 @@ const updateUser = asyncHandler(async (req, res) => {
 
 })
 
+
+// change password function 
+const changePassword = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.user._id)
+
+  const {oldpassword, password} = req.body
+
+  // validation
+  if(!oldpassword ||!password) {
+    res.status(400);
+    throw new Error("Old password and password are required");
+  }
+
+  // check if oldpassword is correct 
+  const passwordIsCorrect = await bcrypt.compare(oldpassword, user.password);
+
+  if(!passwordIsCorrect) {
+      res.status(400);
+      throw new Error("Old password is not correct");
+  }
+
+  // check if the new password matches
+
+
+
+
+})
+
 module.exports = {
     registerUser,
     loginUser,
@@ -204,4 +232,5 @@ module.exports = {
     getUser,
     loginStatus,
     updateUser,
+    changePassword
 }
