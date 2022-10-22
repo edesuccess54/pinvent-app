@@ -197,11 +197,9 @@ const updateUser = asyncHandler(async (req, res) => {
 
 })
 
-
 // change password function 
 const changePassword = asyncHandler(async (req, res) => {
   const user = await User.findById(req.user._id)
-
   const {oldpassword, password} = req.body
 
   // check if user exist
@@ -224,8 +222,6 @@ const changePassword = asyncHandler(async (req, res) => {
       throw new Error("Old password is not correct");
   }
 
-  // check if the new password matches
-
   // save new password 
   if(user && passwordIsCorrect) {
     user.password = password;
@@ -238,6 +234,11 @@ const changePassword = asyncHandler(async (req, res) => {
 
 })
 
+// forgotPassword function
+const forgotPassword = asyncHandler( async (req, res) => {
+  res.send("forgot password")
+})
+
 module.exports = {
     registerUser,
     loginUser,
@@ -245,5 +246,6 @@ module.exports = {
     getUser,
     loginStatus,
     updateUser,
-    changePassword
+    changePassword,
+    forgotPassword
 }
