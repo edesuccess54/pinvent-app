@@ -4,6 +4,7 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require('bcryptjs');
 const Token = require("../models/tokenModel")
 const crypto = require('crypto');
+const sendEmail = require("../utils/sendEmail");
 
 // Generate Token
 const generateToken = (id) => {
@@ -246,6 +247,12 @@ const forgotPassword = asyncHandler( async (req, res) => {
     throw new Error("user does not found");
   }
 
+  // delete token if it exits in database 
+  let token = await Token.findOne({userid: user._id})
+  if(token) {
+    await Token.deleteOne({_id: token._id})
+  }
+
   // create reset token 
   let resetToken = crypto.randomBytes(32).toString("hex") + user._id;
 
@@ -273,13 +280,24 @@ const forgotPassword = asyncHandler( async (req, res) => {
 
     <p>regards...</p>
     <p>Pinvent Team</p>
-  
   `
 
-  console.log(hashedToken);
+  const subject = "Password Reset Request";
+  const send_to = user.email
+  const sent_from = process.env.EMAIL_USER
 
-  res.send("forgotPassword")
 
+  try {
+    await sendEmail(subject, message, send_to, sent_from)
+    res.status(200).json({
+      success: true,
+      message: "Reset Email Sent"
+    })
+    
+  } catch (error) {
+    res.status(500)
+    throw new Error("email not sent, please try again")
+  }
 })
 
 module.exports = {
