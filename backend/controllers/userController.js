@@ -11,7 +11,6 @@ const generateToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: "1d" });
 };
 
-
 // Register User function
 const registerUser = asyncHandler(async (req, res) => {
   const { name, email, password } = req.body;
@@ -250,7 +249,7 @@ const forgotPassword = asyncHandler( async (req, res) => {
   // delete token if it exits in database 
   let token = await Token.findOne({userid: user._id})
   if(token) {
-    await Token.deleteOne({_id: token._id})
+    await Token.deleteOne({_id: token._id}) 
   }
 
   // create reset token 
@@ -300,6 +299,14 @@ const forgotPassword = asyncHandler( async (req, res) => {
   }
 })
 
+// reset password 
+const resetPassword = asyncHandler(async(req, res) => {
+  const {password} = req.body
+  const resetToken = req.params
+
+
+})
+
 module.exports = {
     registerUser,
     loginUser,
@@ -308,5 +315,6 @@ module.exports = {
     loginStatus,
     updateUser,
     changePassword,
-    forgotPassword
+    forgotPassword,
+    resetPassword
 }
