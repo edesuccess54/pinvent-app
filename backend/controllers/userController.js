@@ -304,6 +304,19 @@ const resetPassword = asyncHandler(async(req, res) => {
   const {password} = req.body
   const resetToken = req.params
 
+  // hash token then compare token in the database 
+  const hashedToken = crypto.createHash("sha256").update(resetToken).digest("hex")
+
+  // fin token in db 
+  const userToken = await Token.findOne({
+    token: hashedToken,
+    expiresAt: {$gt: Date.now()}
+  })
+
+  if(userToken) {
+
+  }
+
 
 })
 
