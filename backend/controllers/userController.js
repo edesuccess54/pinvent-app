@@ -313,10 +313,19 @@ const resetPassword = asyncHandler(async(req, res) => {
     expiresAt: {$gt: Date.now()}
   })
 
-  if(userToken) {
-
+  if(!userToken) {
+    res.status(404)
+    throw new Error("Invalid or Expired Token");
   }
 
+  // find the user
+  const user = await User.findOne({_id: userToken.userId})
+  user.password = password
+
+  await user.save()
+  res.status(200).json({
+    message: "Password reset successfully, Please login"
+  })
 
 })
 
