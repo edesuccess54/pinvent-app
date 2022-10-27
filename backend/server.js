@@ -10,7 +10,7 @@ const userRoute = require('./routes/userRoute');
 
 const app = express();
 
-// middlewares
+
 app.use(express.json());
 app.use(cookieParser())
 app.use(express.urlencoded({extended: false}));
