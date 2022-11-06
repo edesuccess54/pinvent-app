@@ -10,7 +10,6 @@ const userRoute = require('./routes/userRoute');
 
 const app = express();
 
-
 app.use(express.json());
 app.use(cookieParser())
 app.use(express.urlencoded({extended: false}));
@@ -27,6 +26,7 @@ app.get("/", (req, res) => {
 
 // error middleware
 app.use(errorHandler)
+
 
 const PORT = process.env.PORT || 5000;
 // connect to mongoDB and start server
