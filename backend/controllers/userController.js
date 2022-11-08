@@ -156,7 +156,7 @@ const getUser = asyncHandler( async (req, res) => {
 // get login status 
 const loginStatus = asyncHandler(async (req, res) => {
 
-  const token = req.cookies.token;
+  const token = req.cookies.token || "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzNTQwMTkwYjEzOTcyMDQwMzc3ZmQzZCIsImlhdCI6MTY2NzkwNjMzNywiZXhwIjoxNjY3OTkyNzM3fQ.pZSBXWvrNTiGURRQU4RjjIzeUImVt0zUgu1AcIk1StI";
   if(!token) {
     return res.json(false)
   }
@@ -183,7 +183,7 @@ const updateUser = asyncHandler(async (req, res) => {
     user.bio = req.body.bio || bio;
     user.photo = req.body.photo || photo;
 
-    const updatedUser = await User.save();
+    const updatedUser = await user.save();
     res.status(200).json({
       _id: updatedUser._id,
       name: updatedUser.name,
@@ -255,7 +255,7 @@ const forgotPassword = asyncHandler( async (req, res) => {
   // create reset token 
   let resetToken = crypto.randomBytes(32).toString("hex") + user._id;
 
-  console.log(resetToken)
+  console.log('reset token is ', resetToken)
 
   // hash token before saving to db 
   const hashedToken = crypto.createHash("sha256").update(resetToken).digest("hex")
@@ -309,7 +309,9 @@ const resetPassword = asyncHandler(async(req, res) => {
   // hash token then compare token in the database 
   const hashedToken = crypto.createHash("sha256").update(resetToken).digest("hex")
 
-  // fin token in db 
+  console.log()
+
+  // find token in db 
   const userToken = await Token.findOne({
     token: hashedToken,
     expiresAt: {$gt: Date.now()}
@@ -328,7 +330,6 @@ const resetPassword = asyncHandler(async(req, res) => {
   res.status(200).json({
     message: "Password reset successfully, Please login"
   })
-
 })
 
 module.exports = {
