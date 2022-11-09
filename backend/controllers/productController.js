@@ -93,9 +93,66 @@ const deleteProduct = asyncHandler (async (req, res) => {
   
 })
 
+// update product 
+const updateProduct = asyncHandler ( async(req, res) => {
+    const { id } = req.params
+    const {name, category, quantity, price, description} = req.body
+
+    const product = await Product.findById(id)
+
+    if(!product) {
+        res.status(404)
+        throw new Error("product not found")
+    }
+
+    if(product.user.toString() !== req.user.id) {
+        res.status(401)
+        throw new Error("user not authorized to update product")
+    }
+
+    // Handle image upload 
+    let fileData = {}
+    if(req.file) {
+        // save image to cloudinary
+        let uploadedFile
+        try {
+            uploadedFile = await cloudinary.uploader.upload(req.file.path, {folder:"pinvent-app", resource_type:"image"})
+        } catch (error) {
+            res.status(500)
+            throw new Error("image could not be uploaded")
+        }
+
+        fileData = {
+            fileName: req.file.originalname,
+            filePath: uploadedFile.secure_url,
+            fileType: req.file.mimetype,
+            fileSize: fileSzeFormater(req.file.size, 2),
+        }
+    }
+ 
+    // update product 
+    const updateProduct = await Product.findByIdAndUpdate({_id: id}, 
+            {
+                name, 
+                category, 
+                quantity, 
+                price, 
+                description,
+                image: Object.keys(fileData).length === 0 ? product.image : fileData
+            },
+            {
+                new: true,
+                runValidators: true
+            }
+        )
+        
+    res.status(200).json(updateProduct)
+})
+
 module.exports = {
     createProduct,
     getProducts,
     getProduct,
-    deleteProduct
+    deleteProduct,
+    updateProduct
 }
