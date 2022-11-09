@@ -5,6 +5,7 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const errorHandler = require('./middleWare/errorMiddleWare')
 const cookieParser = require('cookie-parser')
+const path = require("path")
 
 const userRoute = require('./routes/userRoute');
 const productRoute = require('./routes/productRoute');
@@ -16,6 +17,8 @@ app.use(express.urlencoded({extended: false}));
 app.use(bodyParser.json());
 app.use(cookieParser())
 app.use(cors())
+
+app.use("/uploads", express.static(path.join(__dirname, './uploads')));
 
 // routes middleware
 app.use("/api/users", userRoute)
