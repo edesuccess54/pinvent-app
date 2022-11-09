@@ -25,7 +25,6 @@ const createProduct = asyncHandler (async (req, res) => {
             throw new Error("image could not be uploaded")
         }
 
-
         fileData = {
             fileName: req.file.originalname,
             filePath: uploadedFile.secure_url,
@@ -74,8 +73,29 @@ const getProduct = asyncHandler (async (req, res) => {
     res.status(200).json(product)
 })
 
+// delete product 
+const deleteProduct = asyncHandler (async (req, res) => {
+    const { id } = req.params
+    const product = await Product.findById(id)
+
+    if(!product) {
+        res.status(404)
+        throw new Error("product not found")
+    }
+
+    if(product.user.toString() !== req.user.id) {
+        res.status(401)
+        throw new Error("user not authorized to delete product")
+    }
+
+    await product.remove()
+    res.status(200).json({message: "product deleted"})
+  
+})
+
 module.exports = {
     createProduct,
     getProducts,
-    getProduct
+    getProduct,
+    deleteProduct
 }
