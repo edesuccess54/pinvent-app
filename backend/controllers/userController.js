@@ -156,7 +156,7 @@ const getUser = asyncHandler( async (req, res) => {
 // get login status 
 const loginStatus = asyncHandler(async (req, res) => {
 
-  const token = req.cookies.token || "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzNTQwMTkwYjEzOTcyMDQwMzc3ZmQzZCIsImlhdCI6MTY2NzkwNjMzNywiZXhwIjoxNjY3OTkyNzM3fQ.pZSBXWvrNTiGURRQU4RjjIzeUImVt0zUgu1AcIk1StI";
+  const token = req.cookies.token || "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzNTQwMTkwYjEzOTcyMDQwMzc3ZmQzZCIsImlhdCI6MTY2Nzk5ODExMywiZXhwIjoxNjY4MDg0NTEzfQ.tsyTFa0lQAoVubudJw5tez183EeO_xUIpFVFRxsIppg";
   if(!token) {
     return res.json(false)
   }
