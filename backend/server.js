@@ -9,6 +9,7 @@ const path = require("path")
 
 const userRoute = require('./routes/userRoute');
 const productRoute = require('./routes/productRoute');
+const contactRoute = require('./routes/contactRoute');
 
 const app = express();
 
@@ -23,6 +24,7 @@ app.use("/uploads", express.static(path.join(__dirname, './uploads')));
 // routes middleware
 app.use("/api/users", userRoute)
 app.use("/api/products", productRoute)
+app.use("/api/contactus", contactRoute)
 
 
 // routes
