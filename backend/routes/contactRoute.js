@@ -7,7 +7,4 @@ const router = express.Router()
 
 router.post('/', protect, contactUs )
 
-
-
-
 module.exports = router;

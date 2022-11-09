@@ -131,8 +131,7 @@ const updateProduct = asyncHandler ( async(req, res) => {
     }
  
     // update product 
-    const updateProduct = await Product.findByIdAndUpdate({_id: id}, 
-            {
+    const updateProduct = await Product.findByIdAndUpdate({_id: id}, {
                 name, 
                 category, 
                 quantity, 
