@@ -6,7 +6,7 @@ import Forgot from './pages/auth/Forgot';
 import Reset from './pages/auth/Reset';
 import Sidebar from './components/sidebar/Sidebar';
 import Dashboard from './pages/dashboard/Dashboard';
-import Layout from './pages/layout/Layout';
+import Layout from './components/layout/Layout';
 
 
 function App() {
