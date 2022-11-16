@@ -8,7 +8,7 @@ const protect = asyncHandler( async(req, res, next) => {
         
         if(!token) {
             res.status(401)
-            throw new Error("Not authorized, please login oo")
+            throw new Error("Not authorized, please login")
         }
 
         // verify token 
@@ -29,7 +29,6 @@ const protect = asyncHandler( async(req, res, next) => {
         res.status(401).json({
             error: error.message
         })
-        // throw new Error("Not authorized please okay nah")
     }
 })
 
