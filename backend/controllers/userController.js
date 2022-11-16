@@ -98,8 +98,7 @@ const loginUser = asyncHandler(async (req, res) => {
     path: "/",
     httpOnly: true,
     expires: new Date(Date.now() + 1000 * 86400), // 1 day
-    sameSite: "none",
-    secure: true
+    sameSite: "none"
   });
 
   if (user && passwordIsCorrect) {
@@ -157,7 +156,7 @@ const getUser = asyncHandler( async (req, res) => {
 const loginStatus = asyncHandler(async (req, res) => {
 
   const token = req.cookies.token 
-  // || "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzNTQwMTkwYjEzOTcyMDQwMzc3ZmQzZCIsImlhdCI6MTY2Nzk5ODExMywiZXhwIjoxNjY4MDg0NTEzfQ.tsyTFa0lQAoVubudJw5tez183EeO_xUIpFVFRxsIppg";
+
   if(!token) {
     return res.json(false)
   }
