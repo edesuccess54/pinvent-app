@@ -14,7 +14,7 @@ const Sidebar = ({children}) => {
             <RiProductHuntLine  size={35} style={{cursor: "pointer"}}/>
           </div>
           <div className="bars">
-            <HiMenuAlt3 />
+            <HiMenuAlt3 style={{cursor: "pointer"}}/>
           </div>
         </div>
 
